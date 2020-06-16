@@ -7,8 +7,10 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,43 +31,12 @@ public class Start {
         
         JFrame frame = new JFrame("Feng Jump Beta V1.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 420);
+        frame.setSize(600,400);
         frame.setJMenuBar(menu());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        JTextArea outputTextArea = new JTextArea(5,5);
-        outputTextArea.setText("Output Here");
-        outputTextArea.setLineWrap(true);
-        outputTextArea.setWrapStyleWord(true);
-        outputTextArea.setMargin(new Insets(5, 5, 5,5));
-       
-        JButton startButton = new JButton("Start");
-        startButton.setBackground(Color.BLACK);
-        startButton.setForeground(Color.WHITE);
-        startButton.setPreferredSize(new Dimension(150,100));
-        
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));        
-        buttonPanel.add(startButton);
-
-        JPanel heroControlPanel = new JPanel(new BorderLayout());
-        heroControlPanel.add(buttonPanel, BorderLayout.NORTH);
-
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(heroControlPanel, BorderLayout.CENTER);
-        mainPanel.add(outputTextArea, BorderLayout.SOUTH);
-
-
-        
-        
-        frame.setLayout(new BorderLayout());
-        frame.add(mainPanel, BorderLayout.CENTER);
-        frame.setSize(new Dimension(800, 650));
-
-        //Button Listeners
-        startButton.addActionListener((e) -> {
-            outputTextArea.setText("Start Selected");
-        });
+        FengJump fj = new FengJump();
+        frame.add(fj);
 
         try {
             Image icon = Toolkit.getDefaultToolkit().getImage("src/main/resources/FengJump.png");
