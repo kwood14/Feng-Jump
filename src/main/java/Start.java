@@ -22,7 +22,7 @@ import javax.swing.UIManager;
 
 
 /**
- * Created by Kai Wood
+ * Developed by Kai Wood
  */
 public class Start {
 

@@ -26,8 +26,10 @@ public class FengJump extends JPanel implements ActionListener{
         background = Toolkit.getDefaultToolkit().getImage("src/main/resources/background.png");
 
         playerImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/feng.png");
-        //player.setX(100);
-        //player.setY(100);
+        player = new Player();
+        
+        player.setX(0);
+        player.setY(0);
 
         playing = false;
         begin = true;
@@ -47,10 +49,11 @@ public class FengJump extends JPanel implements ActionListener{
         Graphics2D graphics = (Graphics2D) g;
         graphics.drawImage(background, 0, 0, this);
 
-        graphics.drawImage(playerImage,0,250,this);
+        //250 is where grass is at
+        graphics.drawImage(playerImage,getPlayer().getX(),250 - getPlayer().getY(),this);
         
         graphics.setColor(Color.WHITE);
-            
+        
         
         g.dispose();
 
@@ -59,6 +62,5 @@ public class FengJump extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
-        
     }
 }

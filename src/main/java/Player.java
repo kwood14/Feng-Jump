@@ -8,6 +8,8 @@ public class Player {
     private Image playerIcon;
 
     public Player() {
+        x = 0;
+        y = 0;
     }
     
     public Image getPlayerIcon() {
