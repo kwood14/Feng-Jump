@@ -5,34 +5,32 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.ImageIcon;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
-public class FengJump extends JPanel implements ActionListener{
+public class FengJump extends JPanel implements ActionListener {
 
     private final Image background;
     private final Image playerImage;
     private final Timer timer;
     private Player player;
-    private boolean playing;
-    private boolean begin;
     
     public FengJump()
     {
+        player = new Player();
+        
+        setFocusable(true);
+        setDoubleBuffered(true);
+        addKeyListener(new Adapter());
+        
         background = Toolkit.getDefaultToolkit().getImage("src/main/resources/background.png");
 
         playerImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/feng.png");
-        player = new Player();
         
         player.setX(0);
         player.setY(0);
-
-        playing = false;
-        begin = true;
 
         timer = new Timer(5, this);
         timer.start();
@@ -61,6 +59,57 @@ public class FengJump extends JPanel implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        player.setX(player.getX() + player.getDX());
+        player.setY(player.getY() - player.getDY());
+        
+        //player.setX(player.getX() + 1);
+        //player.setY(player.getY() - 1);
         repaint();
+    }
+    
+    private class Adapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            int pressed = e.getKeyCode();
+            
+            if (!player.isDead()) {
+                switch (pressed) {
+                    case KeyEvent.VK_SPACE:
+                        player.setDy(-1);
+                        break;
+                    case KeyEvent.VK_A:
+                        player.setDx(-1);
+                        break;
+                    case KeyEvent.VK_D:
+                        player.setDx(1);
+                        break;
+                }
+            }
+            
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e)
+        {
+            int pressed = e.getKeyCode();
+
+            if (!player.isDead()) {
+                switch (pressed) {
+                    case KeyEvent.VK_SPACE:
+                        player.setDy(0);
+                        player.setY(0);
+                        break;
+                    case KeyEvent.VK_A:
+                        player.setDx(0);
+                        break;
+                    case KeyEvent.VK_D:
+                        player.setDx(0);
+                        break;
+                }
+            }
+            
+        }
+
     }
 }

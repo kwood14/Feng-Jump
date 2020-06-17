@@ -5,8 +5,8 @@ public class Controls {
     
     public void keyPressed(Player player, KeyEvent key)
     {
-
         int pressed = key.getKeyCode();
+        
         if (!player.isDead()) {
             switch (pressed) {
                 case KeyEvent.VK_SPACE:

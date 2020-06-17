@@ -1,23 +1,26 @@
-import java.awt.Image;
-
 
 public class Player {
     private int x, y;
     private int dx, dy;
     private boolean dead;
-    private Image playerIcon;
+    private Controls controls;
 
     public Player() {
         x = 0;
         y = 0;
-    }
-    
-    public Image getPlayerIcon() {
-        return playerIcon;
+        dead = false;
     }
 
     public int getX() {
         return x;
+    }
+    
+    public int getDX() {
+        return dx;
+    }
+    
+    public int getDY() {
+        return dy;
     }
 
     public void setX(int x) {
@@ -47,6 +50,14 @@ public class Player {
 
     public void setDead(boolean dead) {
         this.dead = dead;
+    }
+    
+    public Controls getControls() {
+        return controls;
+    }
+    
+    public void setControls(Controls controls) {
+        this.controls = controls;
     }
 
 }
