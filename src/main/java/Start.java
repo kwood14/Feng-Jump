@@ -14,16 +14,16 @@ import javax.swing.UIManager;
  */
 public class Start {
 
-
+    FengJump fj;
+    JFrame frame;
     public Start() {
-        
-        JFrame frame = new JFrame("Feng Jump Beta V1.0");
+        frame = new JFrame("Feng Jump Beta V1.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600,400);
         frame.setJMenuBar(menu());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        FengJump fj = new FengJump();
+        fj = new FengJump();
         frame.add(fj);
 
         try {
@@ -50,8 +50,13 @@ public class Start {
         close.addActionListener((ActionEvent e) -> {
             System.exit(0);
         });
-        JMenuItem restart = new JMenuItem("Restart");
         
+        //Restarts the game
+        JMenuItem restart = new JMenuItem("Restart");
+        restart.addActionListener((ActionEvent e) -> {
+            fj.restart();
+            
+        });
         game.add(restart);
         game.add(close);
         

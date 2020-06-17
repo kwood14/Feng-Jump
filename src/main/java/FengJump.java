@@ -15,16 +15,21 @@ public class FengJump extends JPanel implements ActionListener {
 
     private final Image background;
     private final Image playerImage;
-    private final Image logImage;
+    private final Image logImage, logImage1;
     private final Timer timer;
     private Player player;
-    private Log log;
+    private Log log, log1;
     private boolean jump = true;
+    private boolean paused = false;
+    private boolean mainMenu = true;
+    int speed = 1;
+    int speed1 = 1;
     
     public FengJump()
     {
         player = new Player();
         log = new Log();
+        log1 = new Log();
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -36,6 +41,8 @@ public class FengJump extends JPanel implements ActionListener {
         
         logImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/log.png");
         
+        logImage1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/log.png");
+        
         player.setX(0);
         player.setY(0);
 
@@ -43,8 +50,13 @@ public class FengJump extends JPanel implements ActionListener {
         timer.start();
     }
     
-    public Player getPlayer() {
-        return player;
+    public void restart() {
+        player = new Player();
+        log = new Log();
+        log1 = new Log();
+        
+        player.setX(0);
+        player.setY(0);
     }
 
     @Override
@@ -55,11 +67,14 @@ public class FengJump extends JPanel implements ActionListener {
         graphics.drawImage(background, 0, 0, this);
 
         //250 is where grass is at
-        graphics.drawImage(playerImage,getPlayer().getX(),250 - getPlayer().getY(),this);
+        graphics.drawImage(playerImage,player.getX(),250 - player.getY(),this);
         
         graphics.drawImage(logImage,600 + log.getX(),275 - log.getY(),50,50,this);
         
+        graphics.drawImage(logImage1,900 + log1.getX(),275 - log1.getY(),50,50,this);
+        
         graphics.setColor(Color.WHITE);
+        
         
         g.dispose();
 
@@ -67,22 +82,36 @@ public class FengJump extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        player.setX(player.getX() + player.getDX());
-        
-        if(player.getY() < 50)
-        {
-            player.setY(player.getY() - player.getDY());
-        }
-        else {
-            jump = false;
-        }
-        if(log.getX() < -620) {
-            log.setX(0);
-        }
-        log.setX(log.getX() - 1);
         //player.setX(player.getX() + 1);
         //player.setY(player.getY() - 1);
-        repaint();
+        if(!mainMenu) {
+            if(!paused) {
+                player.setX(player.getX() + player.getDX());
+                
+                if(player.getY() < 50)
+                {
+                    player.setY(player.getY() - player.getDY());
+                }
+                else {
+                    jump = false;
+                }
+                if(log.getX() < -620) {
+                    log.setX(0);
+                    if(speed < 5) {
+                        speed++;
+                    }
+                }
+                if(log1.getX() < -920) {
+                    log1.setX(0);
+                    if(speed1 < 5) {
+                        speed1++;
+                    }
+                }
+                log.setX(log.getX() - speed);
+                log1.setX(log1.getX() - speed1);
+                repaint();
+            }
+        }
     }
     
     private class Adapter extends KeyAdapter {
@@ -102,6 +131,12 @@ public class FengJump extends JPanel implements ActionListener {
                         break;
                     case KeyEvent.VK_D:
                         player.setDx(1);
+                        break;
+                    case KeyEvent.VK_P:
+                        paused = !paused;
+                        break;
+                    case KeyEvent.VK_ENTER:
+                        mainMenu = false;
                         break;
                 }
             }
