@@ -1,6 +1,6 @@
 # Feng Jump
 ### Currently in progress 
-### Written by Kai Wood, June 2020
+### Developed by Kai Wood, June 2020
 
 # To run:
 ### 1. Clone the repo

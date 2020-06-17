@@ -14,16 +14,16 @@ import javax.swing.UIManager;
  */
 public class Start {
 
-
+    FengJump fj;
+    JFrame frame;
     public Start() {
-        
-        JFrame frame = new JFrame("Feng Jump Beta V1.0");
+        frame = new JFrame("Feng Jump Beta V1.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600,400);
         frame.setJMenuBar(menu());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        FengJump fj = new FengJump();
+        fj = new FengJump();
         frame.add(fj);
 
         try {
@@ -50,8 +50,13 @@ public class Start {
         close.addActionListener((ActionEvent e) -> {
             System.exit(0);
         });
-        JMenuItem restart = new JMenuItem("Restart");
         
+        //Restarts the game
+        JMenuItem restart = new JMenuItem("Restart");
+        restart.addActionListener((ActionEvent e) -> {
+            fj.restart();
+            
+        });
         game.add(restart);
         game.add(close);
         
@@ -63,13 +68,14 @@ public class Start {
         about.addActionListener((e) -> {
             JOptionPane.showMessageDialog(null, "<html><strong>Feng Jump Beta V1.0</strong><br><br> "
                     + "Developed by Kai Wood<br><br>"
+                    + "June 2020<br><br>"
                     + "<br></html>", "About", 1);
         });
         
         JMenuItem htp = new JMenuItem("How to Play");
         htp.addActionListener((e) -> {
             JOptionPane.showMessageDialog(null, "<html>"
-                    + "Up - <strong>W</strong><br>"
+                    + "Up - <strong>W or Space</strong><br>"
                     + "Down - <strong>S</strong><br>"
                     + "Left - <strong>A</strong><br>"
                     + "Right - <strong>D</strong><br><br>"

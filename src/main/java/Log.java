@@ -1,13 +1,11 @@
 
-public class Player {
+public class Log {
     private int x, y;
     private int dx, dy;
-    private boolean dead;
 
-    public Player() {
+    public Log() {
         x = 0;
         y = 0;
-        dead = false;
     }
 
     public int getX() {
@@ -41,14 +39,6 @@ public class Player {
     public void setY(int num) {
 
         this.y = num;
-    }
-
-    public boolean isDead() {
-        return dead;
-    }
-
-    public void setDead(boolean dead) {
-        this.dead = dead;
     }
 
 }
