@@ -3,21 +3,23 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class FengJump extends JPanel implements ActionListener {
 
-    private final Image background;
-    private final Image playerImage;
-    private final Image logImage, logImage1;
-    private final Timer timer;
+    private Image background;
+    private Image playerImage;
+    private Image logImage, logImage1;
+    private Timer timer;
     private Player player;
     private Log log, log1;
     private boolean jump = true;
@@ -36,14 +38,15 @@ public class FengJump extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         addKeyListener(new Adapter());
         
-        background = Toolkit.getDefaultToolkit().getImage("src/main/resources/background.png");
+        try {
+            background = ImageIO.read(new File("src/main/resources/background.png"));
+            playerImage = ImageIO.read(new File("src/main/resources/feng.png"));
+            logImage = ImageIO.read(new File("src/main/resources/log.png"));        
+            logImage1 = ImageIO.read(new File("src/main/resources/log.png"));
+            
+        } catch (IOException e) {
+        }
 
-        playerImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/feng.png");
-        
-        logImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/log.png");
-        
-        logImage1 = Toolkit.getDefaultToolkit().getImage("src/main/resources/log.png");
-        
         player.setX(0);
         player.setY(0);
 
@@ -161,14 +164,24 @@ public class FengJump extends JPanel implements ActionListener {
             if (!player.isDead()) {
                 switch (pressed) {
                     case KeyEvent.VK_SPACE:
-                        player.setDy(-2);
+                        if(player.getY() == 0) {
+                            player.setDy(-2);
+                            player.setY(0);
+                        }
                         player.setY(0);
                         break;
                     case KeyEvent.VK_W:
-                        player.setDy(-2);
+                        if(player.getY() == 0) {
+                            player.setDy(-2);
+                            player.setY(0);
+                        }
                         player.setY(0);
                         break;
                     case KeyEvent.VK_A:
+                        if(player.getDY() != 0) {
+                            player.setDx(0);
+                            player.setY(0);
+                        }
                         if(player.getX() < 0) {
                             player.setDx(0);
                             player.setX(0);
@@ -178,7 +191,17 @@ public class FengJump extends JPanel implements ActionListener {
                         }
                         break;
                     case KeyEvent.VK_D:
-                        player.setDx(1);
+                        if(player.getDY() != 0) {
+                            player.setDx(0);
+                            player.setY(0);
+                        }
+                        if(player.getX() > 600) {
+                            player.setDx(0);
+                            player.setX(600);
+                        }
+                        else {
+                            player.setDx(1);
+                        }
                         break;
                     case KeyEvent.VK_P:
                         paused = !paused;
