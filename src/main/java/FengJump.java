@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -57,23 +58,32 @@ public class FengJump extends JPanel implements ActionListener {
         
         player.setX(0);
         player.setY(0);
+        speed = 1;
+        speed1 = 1;
     }
 
     @Override
     public void paint(Graphics g)
     {
-
         Graphics2D graphics = (Graphics2D) g;
         graphics.drawImage(background, 0, 0, this);
-
-        //250 is where grass is at
-        graphics.drawImage(playerImage,player.getX(),250 - player.getY(),this);
-        
-        graphics.drawImage(logImage,600 + log.getX(),275 - log.getY(),50,50,this);
-        
-        graphics.drawImage(logImage1,900 + log1.getX(),275 - log1.getY(),50,50,this);
-        
-        graphics.setColor(Color.WHITE);
+        if(mainMenu) {
+            graphics.setFont(new Font("Monospaced", Font.BOLD, 50));
+            graphics.drawString("FENG JUMP", 150, 200);
+        }
+        else if(paused) {
+            graphics.setFont(new Font("Arial", Font.BOLD, 30));
+            graphics.drawString("Paused", 225, 200);
+        }
+        else {
+            //250 is where grass is at
+            graphics.drawImage(playerImage,player.getX(),250 - player.getY(),this);
+            
+            graphics.drawImage(logImage,600 + log.getX(),275 - log.getY(),50,50,this);
+            graphics.drawImage(logImage1,900 + log1.getX(),275 - log1.getY(),50,50,this);
+            
+            graphics.setColor(Color.WHITE);
+        }
         
         
         g.dispose();
@@ -82,10 +92,34 @@ public class FengJump extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        //player.setX(player.getX() + 1);
-        //player.setY(player.getY() - 1);
         if(!mainMenu) {
             if(!paused) {
+                int logX = log.getX() + 600;
+                int log1X = log1.getX() + 900;
+                int logY = log.getY();
+                int log1Y = log1.getY();
+                int playerX = player.getX();
+                int playerY = player.getY();
+                System.out.println("LOG X:" + logX);
+                //System.out.println("LOG Y:" + logY);
+                System.out.println("LOG1 X:" + log1X);
+                //System.out.println("LOG1 Y:" + log1Y);
+                System.out.println("PLAYER X: " + playerX);
+                System.out.println("PLAYER Y: " + playerY);
+                System.out.println("------------");
+                if(playerX <= logX + 3 && playerX >= logX - 3) {
+                    if(playerY <= logY + 3 && playerY >= logY - 3) {
+                        mainMenu = true;
+                        restart();
+                    }
+                }
+                
+                if(playerX <= log1X + 3 && playerX >= log1X - 3) {
+                    if(playerY <= log1Y + 3 && playerY >= log1Y - 3) {
+                        mainMenu = true;
+                        restart();
+                    }
+                }
                 player.setX(player.getX() + player.getDX());
                 
                 if(player.getY() < 50)
@@ -97,21 +131,21 @@ public class FengJump extends JPanel implements ActionListener {
                 }
                 if(log.getX() < -620) {
                     log.setX(0);
-                    if(speed < 5) {
+                    if(speed < 4) {
                         speed++;
                     }
                 }
                 if(log1.getX() < -920) {
                     log1.setX(0);
-                    if(speed1 < 5) {
+                    if(speed1 < 4) {
                         speed1++;
                     }
                 }
                 log.setX(log.getX() - speed);
                 log1.setX(log1.getX() - speed1);
-                repaint();
             }
         }
+        repaint();
     }
     
     private class Adapter extends KeyAdapter {
@@ -127,7 +161,13 @@ public class FengJump extends JPanel implements ActionListener {
                         player.setY(0);
                         break;
                     case KeyEvent.VK_A:
-                        player.setDx(-1);
+                        if(player.getX() < 0) {
+                            player.setDx(0);
+                            player.setX(0);
+                        }
+                        else {
+                            player.setDx(-1);
+                        }
                         break;
                     case KeyEvent.VK_D:
                         player.setDx(1);
