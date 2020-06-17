@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -14,12 +15,16 @@ public class FengJump extends JPanel implements ActionListener {
 
     private final Image background;
     private final Image playerImage;
+    private final Image logImage;
     private final Timer timer;
     private Player player;
+    private Log log;
+    private boolean jump = true;
     
     public FengJump()
     {
         player = new Player();
+        log = new Log();
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -28,6 +33,8 @@ public class FengJump extends JPanel implements ActionListener {
         background = Toolkit.getDefaultToolkit().getImage("src/main/resources/background.png");
 
         playerImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/feng.png");
+        
+        logImage = Toolkit.getDefaultToolkit().getImage("src/main/resources/log.png");
         
         player.setX(0);
         player.setY(0);
@@ -50,8 +57,9 @@ public class FengJump extends JPanel implements ActionListener {
         //250 is where grass is at
         graphics.drawImage(playerImage,getPlayer().getX(),250 - getPlayer().getY(),this);
         
-        graphics.setColor(Color.WHITE);
+        graphics.drawImage(logImage,600 + log.getX(),275 - log.getY(),50,50,this);
         
+        graphics.setColor(Color.WHITE);
         
         g.dispose();
 
@@ -60,8 +68,18 @@ public class FengJump extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         player.setX(player.getX() + player.getDX());
-        player.setY(player.getY() - player.getDY());
         
+        if(player.getY() < 50)
+        {
+            player.setY(player.getY() - player.getDY());
+        }
+        else {
+            jump = false;
+        }
+        if(log.getX() < -620) {
+            log.setX(0);
+        }
+        log.setX(log.getX() - 1);
         //player.setX(player.getX() + 1);
         //player.setY(player.getY() - 1);
         repaint();
@@ -76,7 +94,8 @@ public class FengJump extends JPanel implements ActionListener {
             if (!player.isDead()) {
                 switch (pressed) {
                     case KeyEvent.VK_SPACE:
-                        player.setDy(-1);
+                        player.setDy(-2);
+                        player.setY(0);
                         break;
                     case KeyEvent.VK_A:
                         player.setDx(-1);
@@ -99,6 +118,7 @@ public class FengJump extends JPanel implements ActionListener {
                     case KeyEvent.VK_SPACE:
                         player.setDy(0);
                         player.setY(0);
+                        jump = true;
                         break;
                     case KeyEvent.VK_A:
                         player.setDx(0);
