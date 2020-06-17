@@ -70,10 +70,14 @@ public class FengJump extends JPanel implements ActionListener {
         if(mainMenu) {
             graphics.setFont(new Font("Monospaced", Font.BOLD, 50));
             graphics.drawString("FENG JUMP", 150, 200);
+            graphics.setFont(new Font("Arial", Font.BOLD, 20));
+            graphics.drawString("Press Enter to Begin", 175, 280);
         }
         else if(paused) {
             graphics.setFont(new Font("Arial", Font.BOLD, 30));
             graphics.drawString("Paused", 225, 200);
+            graphics.setFont(new Font("Arial", Font.BOLD, 20));
+            graphics.drawString("Press (P) to Unpause", 175, 280);
         }
         else {
             //250 is where grass is at
@@ -100,13 +104,13 @@ public class FengJump extends JPanel implements ActionListener {
                 int log1Y = log1.getY();
                 int playerX = player.getX();
                 int playerY = player.getY();
-                System.out.println("LOG X:" + logX);
-                //System.out.println("LOG Y:" + logY);
+                /*System.out.println("LOG X:" + logX);
+                System.out.println("LOG Y:" + logY);
                 System.out.println("LOG1 X:" + log1X);
-                //System.out.println("LOG1 Y:" + log1Y);
+                System.out.println("LOG1 Y:" + log1Y);
                 System.out.println("PLAYER X: " + playerX);
                 System.out.println("PLAYER Y: " + playerY);
-                System.out.println("------------");
+                System.out.println("------------");*/
                 if(playerX <= logX + 3 && playerX >= logX - 3) {
                     if(playerY <= logY + 3 && playerY >= logY - 3) {
                         mainMenu = true;
@@ -160,6 +164,10 @@ public class FengJump extends JPanel implements ActionListener {
                         player.setDy(-2);
                         player.setY(0);
                         break;
+                    case KeyEvent.VK_W:
+                        player.setDy(-2);
+                        player.setY(0);
+                        break;
                     case KeyEvent.VK_A:
                         if(player.getX() < 0) {
                             player.setDx(0);
@@ -191,6 +199,11 @@ public class FengJump extends JPanel implements ActionListener {
             if (!player.isDead()) {
                 switch (pressed) {
                     case KeyEvent.VK_SPACE:
+                        player.setDy(0);
+                        player.setY(0);
+                        jump = true;
+                        break;
+                    case KeyEvent.VK_W:
                         player.setDy(0);
                         player.setY(0);
                         jump = true;

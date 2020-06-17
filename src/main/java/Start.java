@@ -68,13 +68,14 @@ public class Start {
         about.addActionListener((e) -> {
             JOptionPane.showMessageDialog(null, "<html><strong>Feng Jump Beta V1.0</strong><br><br> "
                     + "Developed by Kai Wood<br><br>"
+                    + "June 2020<br><br>"
                     + "<br></html>", "About", 1);
         });
         
         JMenuItem htp = new JMenuItem("How to Play");
         htp.addActionListener((e) -> {
             JOptionPane.showMessageDialog(null, "<html>"
-                    + "Up - <strong>W</strong><br>"
+                    + "Up - <strong>W or Space</strong><br>"
                     + "Down - <strong>S</strong><br>"
                     + "Left - <strong>A</strong><br>"
                     + "Right - <strong>D</strong><br><br>"
